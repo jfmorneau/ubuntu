@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:trusty
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -qy \
     apt-utils \
@@ -55,8 +55,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -qy \
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install pipenv
 
 RUN sed -i "s/^# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen && locale-gen && update-locale LANG=en_US.UTF-8
 
