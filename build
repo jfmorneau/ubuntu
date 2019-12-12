@@ -1,0 +1,7 @@
+#!/bin/bash 
+
+REL=$(grep -ioP "(?<=FROM )(.+)" Dockerfile)
+
+echo $REL
+
+docker build -t ${REL} .
