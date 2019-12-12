@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:bionic
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -qy \
     apt-utils \
