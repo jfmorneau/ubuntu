@@ -20,7 +20,8 @@ if (( user != 0 )); then
 
     MKHOME=$([[ -d ${HOME} ]] && echo "" || echo "-m" )
 
-    sudo useradd -d ${HOME} -U ${MKHOME} -u ${user} ${name}
+    #sudo useradd -d ${HOME} -U ${MKHOME} -u ${user} ${name}
+    sudo useradd -d ${HOME} -U -m -u ${user} ${name}
     SUDO="-u $name"
 fi
 
