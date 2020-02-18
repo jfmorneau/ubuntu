@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 set -x
 
@@ -24,6 +24,8 @@ if (( user != 0 )); then
     sudo useradd -d ${HOME} -U -m -u ${user} ${name}
     SUDO="-u $name"
 fi
+
+cd ${HOME} && ln -s ${WORKDIR}
 
 sudo ${SUDO} -i mkdir -p ${workdir}
 sudo ${SUDO} -i bash -c "export QT_X11_NO_MITSHM=1 && cd ${workdir} && ${ARGS}"
