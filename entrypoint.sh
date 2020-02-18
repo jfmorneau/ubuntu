@@ -25,7 +25,9 @@ if (( user != 0 )); then
     SUDO="-u $name"
 fi
 
-cd ${HOME} && ln -s ${WORKDIR}
+if [[ ${HOME} != ${workdir} ]] ; then
+    cd ${HOME} && ln -s ${workdir}
+fi
 
 sudo ${SUDO} -i mkdir -p ${workdir}
 sudo ${SUDO} -i bash -c "export QT_X11_NO_MITSHM=1 && cd ${workdir} && ${ARGS}"
