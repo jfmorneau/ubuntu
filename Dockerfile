@@ -1,49 +1,23 @@
-FROM ubuntu:bionic
+FROM jfmorneau/ubuntu:latest
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -qy \
-    apt-utils \
-    bash \
-    bc \
-    binutils \
-    build-essential \
-    bzip2 \
-    ca-certificates \
-    cpio \
-    debianutils \
-    file \
-    g++ \
-    gcc \
-    git-all \
-    graphviz \
-    gzip \
-    libncurses5 \
-    libncurses5-dev \
-    libqt4-dev \
-    locales \
-    make \
-    patch \
-    perl \
-    pkg-config \
-    pv \
-    python \
-    python3 \
-    python-matplotlib \
-    qt4-dev-tools \
-    rsync \
-    sed \
-    sudo \
-    tar \
-    unzip \
-    wget \
-    zsh
+    qt5-default \
+    cmake \
+    gdb
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN sed -i "s/^# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen && locale-gen && update-locale LANG=en_US.UTF-8
-
-RUN echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-COPY entrypoint.sh /usr/bin/entrypoint.sh
-
-ENTRYPOINT [ "entrypoint.sh" ]  
+RUN cd /tmp 
+RUN cd /tmp && git clone https://github.com/cpp-redis/cpp_redis.git
+RUN cd /tmp/cpp_redis && git submodule init && git submodule update
+RUN cd /tmp/cpp_redis && cmake .
+RUN echo "BUILD_SHARED_LIBS:BOOL=ON" >> /tmp/cpp_redis/MakeCache.txt
+RUN echo "CMAKE_SKIP_BUILD_RPATH:BOOL=ON" >> /tmp/cpp_redis/MakeCache.txt
+RUN echo "TACOPIE_INCLUDE_DIR:PATH=/usr/local/include" >> /tmp/cpp_redis/MakeCache.txt
+RUN echo "CMAKE_CXX_FLAGS:STRING=" >> /tmp/cpp_redis/MakeCache.txt
+RUN echo "CMAKE_INSTALL_PREFIX:STRING=" >> /tmp/cpp_redis/MakeCache.txt
+RUN cd /tmp/cpp_redis && cmake .
+RUN cd /tmp/cpp_redis && make
+RUN cd /tmp/cpp_redis && make install
+RUN cd /tmp/cpp_redis/tacopie && make && make install
