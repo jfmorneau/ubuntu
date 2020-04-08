@@ -25,6 +25,11 @@ if (( user != 0 )); then
     SUDO="-u $name"
 fi
 
+if [[ ! -d ${HOME}/.pyenv ]] ; then
+    sudo ${SUDO} -i /opt/pyenv-install.sh
+    sudo ${SUDO} -i bash -c "echo 'source /opt/pyenv.env' >> ${HOME}/.bashrc"
+fi
+
 if [[ ${HOME} != ${workdir} ]] ; then
     cd ${HOME} && ln -s ${workdir}
 fi
