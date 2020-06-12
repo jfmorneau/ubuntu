@@ -21,7 +21,7 @@ if (( user != 0 )); then
     MKHOME=$([[ -d ${HOME} ]] && echo "" || echo "-m" )
 
     #sudo useradd -d ${HOME} -U ${MKHOME} -u ${user} ${name}
-    sudo useradd -d ${HOME} -U -m -u ${user} ${name}
+    sudo useradd -d ${HOME} -U -m -u ${user} -k /etc/skel ${name}
     SUDO="-u $name"
 fi
 
@@ -35,6 +35,7 @@ if [[ ${HOME} != ${workdir} ]] ; then
 fi
 
 sudo ${SUDO} -i mkdir -p ${workdir}
+sudo ${SUDO} chown ${name}:${name} ${HOME}
 sudo ${SUDO} -i bash -c "export QT_X11_NO_MITSHM=1 && cd ${workdir} && ${ARGS}"
 
 
