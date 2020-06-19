@@ -60,9 +60,9 @@ RUN pip3 install pipenv
 
 RUN sed -i "s/^# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen && locale-gen && update-locale LANG=en_US.UTF-8
 
-RUN echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+#RUN echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-COPY entrypoint.sh /usr/bin/entrypoint.sh
+#COPY entrypoint.sh /usr/bin/entrypoint.sh
 
 COPY pyenv.env /opt
 COPY pyenv-install.sh /opt
@@ -71,4 +71,4 @@ RUN ln -sf /usr/bin/python3 /usr/bin/python
 RUN ln -sf /usr/bin/pip3 /usr/bin/pip
 
 
-ENTRYPOINT [ "entrypoint.sh" ]
+#ENTRYPOINT [ "entrypoint.sh" ]

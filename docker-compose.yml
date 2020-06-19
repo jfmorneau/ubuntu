@@ -1,0 +1,19 @@
+version: '3'
+services:
+  build-env:
+    image: jfmorneau/ubuntu:latest
+    #user: ${UID:-1000}:${GID:-1000}
+    volumes:
+      - ${HOME}:${HOME}
+      - /run/user/${UID:-1000}/bus:/run/user/${UID:-1000}/bus
+      - /etc/sudoers:/etc/sudoers
+      # Make the bash prompt beautiful
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
+    tmpfs:
+      - /tmp
+    environment:
+      - DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${UID:-1000}/bus
+      - HOME=/tmp
+    working_dir: ${PWD}
