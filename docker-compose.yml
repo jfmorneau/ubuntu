@@ -1,19 +1,22 @@
 version: '3'
 services:
   build-env:
+    build:
+      context: .
     image: jfmorneau/ubuntu:latest
-    #user: ${UID:-1000}:${GID:-1000}
+    user: ${UID:-1000}:${GID:-1000}
     volumes:
-      - ${HOME}:${HOME}
+      - ${PWD}:${PWD}
       - /run/user/${UID:-1000}/bus:/run/user/${UID:-1000}/bus
       - /etc/sudoers:/etc/sudoers
       # Make the bash prompt beautiful
       - /etc/group:/etc/group:ro
       - /etc/passwd:/etc/passwd:ro
-      - /etc/shadow:/etc/shadow:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix
     tmpfs:
       - /tmp
+    network_mode: "host"
     environment:
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/${UID:-1000}/bus
-      - HOME=/tmp
+      - DISPLAY
     working_dir: ${PWD}

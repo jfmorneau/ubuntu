@@ -1,6 +1,6 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -qy \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -qy \
     apt-utils \
     bash \
     bc \
@@ -22,7 +22,6 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -qy \
     liblzma-dev \
     libncurses5 \
     libncurses5-dev \
-    libqt4-dev \
     libreadline-dev \
     libsqlite3-dev \
     libssl-dev \
@@ -36,10 +35,8 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -qy \
     pkg-config \
     pv \
     python \
-    python-matplotlib \
     python3 \
     python3-pip \
-    qt4-dev-tools \
     rsync \
     sed \
     sudo \
@@ -60,9 +57,11 @@ RUN pip3 install pipenv
 
 RUN sed -i "s/^# en_US.UTF-8/en_US.UTF-8/" /etc/locale.gen && locale-gen && update-locale LANG=en_US.UTF-8
 
-#RUN echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN echo "ALL ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 #COPY entrypoint.sh /usr/bin/entrypoint.sh
+
+RUN echo "root:root" | chpasswd
 
 COPY pyenv.env /opt
 COPY pyenv-install.sh /opt
